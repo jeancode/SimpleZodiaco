@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Zodiaco</title>
+    <!--include jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <style>
+
+        body{
+            margin:0px;
+            background:black;
+            
+            font-family:sans-serif;
+        }
+
+        #contenido{
+            width: 100%;
+            height: 100%;
+            background-image: url('./images/bg.jpg');
+            background-size: contain;
+            background-position: center;
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*filtro mas luminoso*/
+            filter: brightness(1.2);
+            animation: brillo 3s  linear infinite;
+           
+            
+        }
+
+        #contentItems{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            
+            
+        }
+        #contentItem{
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background-image:url('./images/descarga.png');
+            background-size: contain;
+            background-position: center;
+            display: flex;
+            animation: rotar 2.5s linear infinite;
+            position: absolute;
+            box-shadow: 0px 0px 10px rgb(15, 231, 255),
+            0px 0px 50px rgb(15, 231, 255);
+            backdrop-filter: blur(100px);
+        }
+        #Float{
+            width: 300px;
+            height: 400px;
+            background-color: rgba(255, 255, 255, 0);
+            
+            
+            backdrop-filter: blur(10px);
+            border:1px solid rgba(255, 255, 255, 0.12);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            
+            transform-style: preserve-3d;
+             
+        }
+        .title{
+            width: 100%;
+            min-height: 70px;
+            color:white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 0, 0, 0.231);;
+            font-size: 25px;
+        }
+        .Content-inputs{
+            display: flex; 
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            
+        }
+        .text{
+            width: calc(100% - 80px);
+            height: 35px;
+            background: rgba(9, 0, 0, 0.264);;
+            border:none;
+            border-bottom:1px solid rgba(255, 255, 255, 0.337);
+           /* border-left:1px solid rgba(255, 255, 255, 0.337);;*/
+            padding-left: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: white;
+            outline: none;
+        }
+        .boton{
+            height: 30px;
+            margin-top: 10px;
+            width: 200px;
+            background: rgba(255, 0, 0, 0);;
+            color:white;
+            border:1px solid rgba(255, 255, 255, 0.337);
+            border-radius: 3px;
+        }
+        .boton:hover{
+            background: rgba(18, 203, 216, 0.445);;
+            color:white;
+            
+        }
+        /*keyframe rotacion infinita*/
+        @keyframes rotar{
+            0%{
+                transform: translateZ(200px) rotateX(35deg) rotateZ(0deg);
+                 box-shadow: 0px 0px 10px rgb(15, 231, 255),
+            0px 0px 50px rgb(15, 231, 255);
+            }
+            100%{
+                transform: translateZ(200px) rotateX(35deg) rotateZ(360deg);
+                box-shadow: 0px 0px 0px rgb(15, 231, 255),
+            0px 0px 0px rgb(15, 231, 255);
+            }
+        }
+        /*key frames brillo parpadeante*/
+        @keyframes brillo{
+            0%{
+                filter: brightness(1.2);
+            
+            }
+            50%{
+                filter: brightness(3.5);
+                
+            }
+            100%{
+                filter: brightness(1.2);
+            
+            }
+        }
+    </style>
+
+<script>
+    $(document).ready(function(){
+        
+        //CREATE FUNCION MAP X,MIN,MAX,OPUTPUTMIN,OUTPUTMAX
+        function map(x, min, max, outputmin, outputmax){
+            return (x - min) * (outputmax - outputmin) / (max - min) + outputmin;
+        }
+        //event mouse move
+        $(document).mousemove(function(e){
+            //get mouse position
+            var mouseX = e.pageX;
+            var mouseY = e.pageY;
+            //get window size
+            var windowWidth = $(window).width();
+            var windowHeight = $(window).height();
+            //get mouse position relative to window
+            var mouseXPercent = mouseX/windowWidth;
+            var mouseYPercent = mouseY/windowHeight;
+            // #Float move to mouse Xpercent
+            var floatX = mouseXPercent * 100;
+            var floatY = mouseYPercent * 100;
+
+            floatX = map(floatX, 0, 100, -50, 50);
+            floatY = map(floatY, 0, 100, -50, 50);
+            
+
+            //console.log(floatX);
+            //set float position
+         
+            $(".FloatContente").css({
+               "transform": "rotateY("+floatX+"deg) rotateX("+floatY+"deg)"
+            });
+
+  
+
+            
+        });
+
+
+        
+
+      
+        
+    });
+    
+</script>
+</head>
+<body>
+    <div id="contenido">
+
+        
+        <div id="contentItems">
+
+                
+            <div id="contentItem">
+
+            </div>
+
+
+            <div id="Float" class="FloatContente">
+
+                <div class="title">Formulario</div>
+
+                <div class="Content-inputs">
+
+                    <input type="Email"  class="text" placeholder="Email">
+                    <input type="Password" class="text" placeholder="Password">
+                    <input type="Password" class="text" placeholder="Confirm Password">
+                    <input type="submit" class="boton" value="Registrar">
+                    
+                </div>
+
+
+            </div>
+
+            
+        </div>
+    </div>
+</body>
+</html>
